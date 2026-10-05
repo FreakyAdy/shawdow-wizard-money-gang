@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
-import { Play, Volume2, Radio, Sparkles, Disc, Flame, ShieldAlert, Zap } from 'lucide-react';
+import { Play, Volume2, Radio, Sparkles, Disc, Flame, ShieldAlert, Zap, ExternalLink } from 'lucide-react';
 import { soundFx } from '../utils/audio';
 
 export default function YouTubeMemeSection() {
-  const [selectedVideo, setSelectedVideo] = useState('dQ1b_q4fH9s');
+  const [selectedVideo, setSelectedVideo] = useState('oseM5Zxgg78');
   const [activeMemeSound, setActiveMemeSound] = useState(null);
 
   const videoPlaylist = [
     {
-      id: 'dQ1b_q4fH9s',
-      title: 'Original SWMG Anthem (Official Meme Cut)',
-      subtitle: '“We love casting spells” — Joeyy & DJ Smokey',
-      duration: '0:45 (Loopable)'
+      id: 'oseM5Zxgg78',
+      title: 'Shadow Wizard Money Gang (We Love Casting Spells)',
+      subtitle: 'The sacred meme anthem & legendary vocal chops',
+      duration: 'Official Cut',
+      url: 'https://youtu.be/oseM5Zxgg78'
     },
     {
-      id: 's88r_q7wydE',
-      title: 'Dark Magic Trap & Phonk Mix',
-      subtitle: 'Spells to study, cast, and evade campus security to',
-      duration: '3:20'
+      id: 'RWnaWpBCAC0',
+      title: 'Shadow Wizard Money Gang — Extended Theme',
+      subtitle: 'Phonk beats, nuclear sirens, and arcane bass drops',
+      duration: 'Full Edit',
+      url: 'https://youtu.be/RWnaWpBCAC0'
     },
     {
-      id: '7lC9r0tL87k',
-      title: 'Shadow Government Emergency Broadcast',
-      subtitle: 'Classified visual documentation of astral warfare',
-      duration: '1:15'
+      id: '04N9ZnYtmO8',
+      title: 'Shadow Wizard Money Gang — Lore & Animation',
+      subtitle: 'Certified astral broadcast from the shadow government',
+      duration: 'Animation Cut',
+      url: 'https://youtu.be/04N9ZnYtmO8'
     }
   ];
+
+  const currentVideoData = videoPlaylist.find((v) => v.id === selectedVideo) || videoPlaylist[0];
 
   const memeSounds = [
     {
@@ -138,9 +143,10 @@ export default function YouTubeMemeSection() {
           
           {/* Main YouTube Embedded Video */}
           <div className="lg:col-span-8 rounded-2xl overflow-hidden border-2 border-purple-500/50 bg-black shadow-[0_0_40px_rgba(147,51,234,0.3)]">
-            <div className="relative aspect-video w-full">
+            <div className="relative aspect-video w-full bg-black">
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${selectedVideo}?autoplay=0&rel=0&modestbranding=1`}
+                key={selectedVideo}
+                src={`https://www.youtube.com/embed/${selectedVideo}?rel=0&modestbranding=1&enablejsapi=1`}
                 title="Shadow Wizard Money Gang YouTube Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -148,25 +154,38 @@ export default function YouTubeMemeSection() {
               />
             </div>
             
-            {/* Video Controls Bar */}
-            <div className="p-4 bg-[#0a0316] flex items-center justify-between border-t border-purple-900/60">
+            {/* Video Controls & Info Bar */}
+            <div className="p-4 bg-[#0a0316] flex flex-wrap items-center justify-between gap-3 border-t border-purple-900/60">
               <div className="flex items-center gap-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#00ff66] animate-ping" />
                 <span className="text-xs font-mono text-zinc-300">
-                  Transmitting from: <strong className="text-[#00ff66]">Dimension 420-X</strong>
+                  Playing: <strong className="text-[#00ff66] font-medieval">{currentVideoData.title}</strong>
                 </span>
               </div>
-              <div className="flex items-center gap-1.5">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <span
-                    key={i}
-                    className="w-1 bg-[#00ff66] rounded-full animate-pulse"
-                    style={{
-                      height: `${(i % 3 + 1) * 8}px`,
-                      animationDelay: `${i * 150}ms`
-                    }}
-                  />
-                ))}
+              
+              <div className="flex items-center gap-4">
+                <a
+                  href={currentVideoData.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs font-mono text-purple-300 hover:text-[#00ff66] transition-colors"
+                >
+                  <span>Open in YouTube</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+
+                <div className="flex items-center gap-1.5">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <span
+                      key={i}
+                      className="w-1 bg-[#00ff66] rounded-full animate-pulse"
+                      style={{
+                        height: `${(i % 3 + 1) * 8}px`,
+                        animationDelay: `${i * 150}ms`
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -195,10 +214,10 @@ export default function YouTubeMemeSection() {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <h4 className="font-medieval font-bold text-sm text-white flex items-center gap-2">
-                      <Play className={`w-3.5 h-3.5 ${isCurrent ? 'text-[#00ff66] fill-[#00ff66]' : 'text-purple-400'}`} />
-                      {vid.title}
+                      <Play className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-[#00ff66] fill-[#00ff66]' : 'text-purple-400'}`} />
+                      <span className="line-clamp-1">{vid.title}</span>
                     </h4>
-                    <span className="text-[10px] font-mono text-zinc-500 bg-black/50 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-mono text-[#00ff66] bg-black/60 px-2 py-0.5 rounded shrink-0 border border-purple-900">
                       {vid.duration}
                     </span>
                   </div>
